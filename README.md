@@ -1,7 +1,7 @@
 versioning with git on a intern server (gitlab)
 ========================
 
-## Install
+### Install
 
 * https://github.com/gitlabhq/gitlabhq/blob/master/doc/install/installation.md
 
@@ -9,7 +9,7 @@ versioning with git on a intern server (gitlab)
 access model for every developer to restrict access for some branches etc.
 ========================
 
-## Using gitlab we can easy protect our branches
+### Using gitlab we can easy protect our branches
 
 * https://github.com/gitlabhq/gitlabhq/blob/master/doc/workflow/protected_branches.md
 
@@ -19,13 +19,13 @@ using Git-Flow for Branching
 
 (I'm not the creator of this process, I just read this article http://nvie.com/posts/a-successful-git-branching-model about two years ago, and start using it)
 
-## Two main branches
+### Two main branches
 
 * master - production server is always synchronized with master branch. 
 
 * develop - the main branch for development. Contains last changes for the next release.
 
-## Supporting branches
+### Supporting branches
 
 * Feature branches - for a new features
 
@@ -106,10 +106,11 @@ how to integrate extern developers with only partial access to the project
 
 * create user permissions needed for this developer using gitlab
 
+
 Team members
 ========================
 
-## Lead developer
+### Lead developer
 
 * development
 
@@ -123,30 +124,32 @@ Team members
 
 * deployment
 
-## Front-end developer
+### Front-end developer
 
 * front-end development
 
 * unit/functional testing
 
-## Back-end developer
+### Back-end developer
 
 * back-end development
 
 * unit/functional testing
 
-## QA
+### QA
 
 * testing
 
-## admin
+### admin
 
 * Install software / Create a backup and recover policy / Update system / Setup security policies for users
+
 
 CI server
 ========================
 
 * http://doc.gitlab.com/ce/ci/quick_start/README.html
+
 
 Permissions
 ========================
@@ -157,6 +160,7 @@ Permissions
 
 * Only Lead developer has permissions to administrate CI server
 
+
 Git hooks
 ========================
 
@@ -164,14 +168,15 @@ Git hooks
 
 * deployment on staging server on push to the develop branch
 
+
 Process
 ========================
 
-## First time
+### First time
 
 * Lead developer with help of admin prepare server, dev/staging/prod envirements, CI server, protection of branches, user permissions, etc
 
-## Before sprint
+### Before sprint
 
 * Product owner creates wishlist
 
@@ -183,7 +188,7 @@ Process
 
 * Lead developer create sprint
 
-## During sprint
+### During sprint
 
 * team member working on his task in a separated branch
 
