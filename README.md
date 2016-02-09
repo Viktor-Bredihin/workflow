@@ -88,8 +88,9 @@ rollback functionality if something is broken in live app to an earlier verison
 ========================
 
 * Since for every release we have a different tag, named as project version (eg 1.2.2)
+```
 git revert tag (previous version)
-
+```
 
 working with at least 3 areas (developer private area, staging area, integration area, live area etc.)
 ========================
