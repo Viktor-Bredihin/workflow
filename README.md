@@ -1,4 +1,20 @@
-Git-Flow
+versioning with git on a intern server (gitlab)
+========================
+
+## Install
+
+* https://github.com/gitlabhq/gitlabhq/blob/master/doc/install/installation.md
+
+
+access model for every developer to restrict access for some branches etc.
+========================
+
+## Using gitlab we can easy protect our branches
+
+* https://github.com/gitlabhq/gitlabhq/blob/master/doc/workflow/protected_branches.md
+
+
+using Git-Flow for Branching
 ========================
 
 (I'm not the creator of this process, I just read this article http://nvie.com/posts/a-successful-git-branching-model about two years ago, and start using it)
@@ -44,92 +60,135 @@ Git-Flow
 * Branch naming convention hotfix-*
 
 
-Versioning with git on a intern server
+how to handle hotfixes?
 ========================
 
-* install needed aptitude packages
-```
-aptitude install git-core git-svn gitweb
-```
+* Create branch based on master
 
-* create dir to store repo
-```
-mkdir -p /www/git.domain.tld/{htdocs,logs} /www/git.domain.tld/htdocs/git
-```
+* create needed changes
 
-* activate needed apache mods
-```
-a2enmod dav
-a2enmod dav_fs
-a2enmod rewrite
-a2enmod env
-```
+* merge hotfix branch to master
 
-* create config for gitweb
-```
-mcedit /www/git.domain.tld/gitweb.conf
+* create new version tag
 
-For example
+* merge master to develop branch
 
-$my_uri = “http://git.domain.tld”; # адрес репозиториев
-$site_name = “git.domain.tld”; # название сайта, отображается в заголовке
-$projectroot = “/www/git.domain.tld/htdocs/git/”; # путь к репозиториям git на жёстком диске
+* remove hotfix branch
 
-$git_temp = “/tmp”;
-$home_link = $my_uri; # ссылка на «домашнюю страничку»
-# $home_text = “indextext.html”; # текст, можно расскоментировать и вставить свой
-$projects_list = $projectroot;
-$stylesheet = “/gitweb/gitweb.css”;
-$logo = “/gitweb/git-logo.png”;
-$favicon = “/gitweb/git-favicon.png”;
-$projects_list_description_width = 40;
 
-$feature{’pathinfo’}{’default’} = [1];
-```
+release only a part of all new features to the live project
+========================
 
-* set up vhost for apache2
-```
-<VirtualHost *:80>
-ServerName git.domain.tld
-ServerAlias www.git.domain.tld
+* on some state of develop branch we must create release branch, and merge this branch to master when ready (recommended way)
 
-ServerAdmin head@coderscamp.ru
+* if for some reasons we can't use recommended way, we should create a release branch based on master and then merge needed features to this branch (unrecommended way)
 
-DocumentRoot /www/git.domain.tld/htdocs
-ScriptAlias /cgi-bin/ /usr/lib/cgi-bin/
 
-DirectoryIndex /cgi-bin/gitweb.cgi
+rollback functionality if something is broken in live app to an earlier verison
+========================
 
-RewriteEngine on
-RewriteRule ^/([a-zA-Z0-9_\-]+\/\.git)/?(\?.*)?$ /cgi-bin/gitweb.cgi/$1 [L,PT]
+* Since for every release we have a different tag, named as project version (eg 1.2.2)
+git revert tag (previous version)
 
-SetEnv GITWEB_CONFIG /www/git.domain.tld/gitweb.conf
-Alias /gitweb /usr/share/gitweb/
 
-<Directory /www/git.domain.tld/htdocs>
-Options FollowSymLinks
-AllowOverride None
-Order allow,deny
-allow from all
-</Directory>
+working with at least 3 areas (developer private area, staging area, integration area, live area etc.)
+========================
 
-<Location /git>
-DAV on
-AuthType Basic
-AuthName «Git»
-AuthUserFile /www/git.domain.tld/passwd.git
-<LimitExcept GET HEAD PROPFIND OPTIONS REPORT>
-Require valid-user
-</LimitExcept>
-</Location>
+* Developers work on bugs and features in separate branches on local environment (dev)
 
-LogLevel warn
-ErrorLog /www/git.domain.tld/logs/error.log
-CustomLog /www/git.domain.tld/logs/access.log combined
-</VirtualHost>
-```
+* Once features are implemented, they are merged into the develop branch and deployed to the Staging environment for quality assurance and testing.
 
-* add new user
-```
-htpasswd -cm /www/git.domain.tld/passwd.git user
-```
+* On the release date, the development branch is merged into production and then deployed to the Production environment.
+
+
+how to integrate extern developers with only partial access to the project
+========================
+
+* create user permissions needed for this developer using gitlab
+
+Team members
+========================
+
+## Lead developer
+
+* development
+
+* unit/functional testing
+
+* distribute tasks between team members
+
+* code review
+
+* choice of technical tools
+
+* deployment
+
+## Front-end developer
+
+* front-end development
+
+* unit/functional testing
+
+## Back-end developer
+
+* back-end development
+
+* unit/functional testing
+
+## QA
+
+* testing
+
+## admin
+
+* Install software / Create a backup and recover policy / Update system / Setup security policies for users
+
+CI server
+========================
+
+* http://doc.gitlab.com/ce/ci/quick_start/README.html
+
+Permissions
+========================
+
+* Only Lead developer has permissions to push into develop and master branches
+
+* Only Lead developer has permissions to remove a branches
+
+* Only Lead developer has permissions to administrate CI server
+
+Git hooks
+========================
+
+* deployment on production server on push to the master branch
+
+* deployment on staging server on push to the develop branch
+
+Process
+========================
+
+## First time
+
+* Lead developer with help of admin prepare server, dev/staging/prod envirements, CI server, protection of branches, user permissions, etc
+
+## Before sprint
+
+* Product owner creates wishlist
+
+* Lead developer creates tasks based on wishlist
+
+* Lead developer tasks between team members
+
+* team members provide an estimation for every task
+
+* Lead developer create sprint
+
+## During sprint
+
+* team member working on his task in a separated branch
+
+* when branch is ready team member creates merge request on Lead developer
+
+* Lead developer review the task, merge it to develop branch, deploy to the staging and assign qa
+
+* after qa confirmed that task is finished, task can be closed and task-branch should be removed
