@@ -175,7 +175,22 @@ Process
 
 ### First time
 
-* Lead developer with help of admin prepare server, dev/staging/prod envirements, CI server, protection of branches, user permissions, etc
+* Admin - Rent a server
+
+* Lead developer with help of admin - install gitlab (described in 'versioning with git on a intern server' section)
+
+* Lead developer - create main branches (master, develop)
+
+* Lead developer - create branch access model using gitlab (described in security section)
+
+* Lead developer with help of admin - set up staging server
+
+* Lead developer set up git hooks (described in git hooks section)
+
+* Lead developer - setup CI server (described in 'CI Server' section)
+
+* Lead developer - set up user permissions for CI server (described in security section)
+
 
 ### Before sprint
 
