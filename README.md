@@ -213,3 +213,30 @@ Process
 * Lead developer review the task, merge it to develop branch, deploy to the staging and assign qa
 
 * after qa confirmed that task is finished, task can be closed and task-branch should be removed
+
+### Before release
+
+* create release branch based on develop branch
+
+### Release
+
+* merge release branch to master
+```
+git merge --no-ff release-1.2
+```
+
+* create tag
+```
+git tag -a 1.2
+```
+
+* merge with develop
+```
+git checkout develop
+git merge --no-ff release-1.2
+```
+
+* delete release branch
+```
+git branch -d release-1.2
+```
